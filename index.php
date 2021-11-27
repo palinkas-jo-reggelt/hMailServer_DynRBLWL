@@ -127,7 +127,7 @@
 				echo "<div class='div-table-col' data-column='Branch'>".$row['branch']."</div>";
 				echo "<div class='div-table-col' data-column='Node'><a onClick=\"window.open('./edit.php?id=".$row['id']."','EDIT','resizable,height=420,width=420'); return false;\">".$row['node']."</a></div>";
 				echo "<div class='div-table-col' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['tracked']))."</div>";
-				echo "<div class='div-table-col center' data-column='Hits'>".$row['hits']."</div>";
+				echo "<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>";
 				if ($row['active']==1) {$display_active="Y";} else {$display_active="N";}
 				echo "<div class='div-table-col center' data-column='Active'>".$display_active."</div>";
 			echo "</div>";
