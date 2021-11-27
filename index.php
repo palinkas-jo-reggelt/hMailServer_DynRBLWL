@@ -117,8 +117,8 @@
 					<div class='div-table-col'>Branch</div>
 					<div class='div-table-col'>Node</div>
 					<div class='div-table-col'>Last</div>
-					<div class='div-table-col center'>H</div>
-					<div class='div-table-col center'>A</div>
+					<div class='div-table-col center'>Hits</div>
+					<div class='div-table-col center'>Active</div>
 				</div>";
 		
 		while($row = $sql->fetch(PDO::FETCH_ASSOC)){
