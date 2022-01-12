@@ -1,9 +1,6 @@
 
-<br><br>
-
-<div class="footer">
-
-</div>
+	<br><br>
+	<div class="footer"></div>
 
 </div> <!-- end WRAPPER -->
 </body>

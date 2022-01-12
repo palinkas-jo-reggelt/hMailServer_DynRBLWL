@@ -29,30 +29,38 @@
 	if ($trunk=="") {$trunk_ph="Trunk";} else {$trunk_ph=$trunk;}
 	if ($branch=="") {$branch_ph="Branch";} else {$branch_ph=$branch;}
 
-	echo "<div class='section'><div style='line-height:24px;'>";
-	echo "<form autocomplete='off' id='myForm' action='index.php' method='GET'> ";
-	echo	"<br><select name='trunk' onchange='this.form.submit()'>";
-	echo		"<option value='".$trunk."'>".$trunk_ph."</option>";
+	echo "
+	<div class='section'>
+		<div style='line-height:24px;'>
+			<form autocomplete='off' id='myForm' action='index.php' method='GET'><br>
+				<select name='trunk' onchange='this.form.submit()'>
+					<option value='".$trunk."'>".$trunk_ph."</option>";
 	$sql = $pdo->prepare("SELECT DISTINCT(trunk) AS trunk_title FROM ".$Database['tablename'].";");
 	$sql->execute();
 	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-		echo "<option value=".$row['trunk_title'].">".$row['trunk_title']."</option>";
+		echo "
+					<option value=".$row['trunk_title'].">".$row['trunk_title']."</option>";
 	}
-	echo	"</select> ";
-	echo	" <select name='branch' onchange='this.form.submit()'>";
-	echo		"<option value='".$branch."'>".$branch_ph."</option>";
+	echo "
+				</select>
+				<select name='branch' onchange='this.form.submit()'>
+					<option value='".$branch."'>".$branch_ph."</option>";
 	$sql = $pdo->prepare($branch_option_sql);
 	$sql->execute();
 	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-		echo "<option value=".$row['branch_title'].">".$row['branch_title']."</option>";
+		echo "
+					<option value=".$row['branch_title'].">".$row['branch_title']."</option>";
 	}
-	echo	"</select> ";
-	echo	" <input type='text' size='20' name='search' placeholder='Search Term...' value='".$search_ph."'> ";
-	echo	" <input type='submit' name='submit2' value='Search' >";
-	echo 	" <button class='button' type='submit' name='clear'>Reset</button>";
-	echo "</form>";
-	echo "</div></div>";
-	echo "<div class='section'>";
+	echo "
+				</select>
+				<input type='text' size='20' name='search' placeholder='Search Term...' value='".$search_ph."'>
+				<input type='submit' name='submit2' value='Search' >
+				<button class='button' type='submit' name='clear'>Reset</button>
+			</form>
+		</div>
+	</div>
+	
+	<div class='section'>";
 
 	if ($search==""){$search_SQL = "";} else {$search_SQL = " AND data='".$search."'";}
 	if ($trunk==""){$trunk_SQL = "";} else {$trunk_SQL = " AND trunk='".$trunk."'";}
@@ -109,48 +117,57 @@
 			echo "No results ".$search_res.$trunk_res.$branch_res;
 		}	
 	} else {
-		echo "<span style='font-size:0.8em;'>Results ".$search_res.$trunk_res.$branch_res.": ".number_format($total_rows)." Record".$singular." ".$pagination."<br></span>";
 		echo "
-			<div class='div-table'>
-				<div class='div-table-row-header'>
-					<div class='div-table-col'>Trunk</div>
-					<div class='div-table-col'>Branch</div>
-					<div class='div-table-col'>Node</div>
-					<div class='div-table-col'>Last</div>
-					<div class='div-table-col center'>Hits</div>
-					<div class='div-table-col center'>Active</div>
-				</div>";
+		<span style='font-size:0.8em;'>Results ".$search_res.$trunk_res.$branch_res.": ".number_format($total_rows)." Record".$singular." ".$pagination."<br></span>
+		<div class='div-table'>
+			<div class='div-table-row-header'>
+				<div class='div-table-col'>Trunk</div>
+				<div class='div-table-col'>Branch</div>
+				<div class='div-table-col'>Node</div>
+				<div class='div-table-col'>Last</div>
+				<div class='div-table-col center'>Hits</div>
+				<div class='div-table-col center'>Active</div>
+			</div>";
 		
 		while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-			echo "<div class='div-table-row'>";
-				echo "<div class='div-table-col' data-column='Trunk'>".$row['trunk']."</div>";
-				echo "<div class='div-table-col' data-column='Branch'>".$row['branch']."</div>";
-				echo "<div class='div-table-col' data-column='Node'><a onClick=\"window.open('./edit.php?id=".$row['id']."','EDIT','resizable,height=420,width=420'); return false;\">".$row['node']."</a></div>";
-				echo "<div class='div-table-col' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['tracked']))."</div>";
-				echo "<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>";
+			echo "
+			<div class='div-table-row'>
+				<div class='div-table-col' data-column='Trunk'>".$row['trunk']."</div>
+				<div class='div-table-col' data-column='Branch'>".$row['branch']."</div>
+				<div class='div-table-col' data-column='Node'><a href='./edit.php?id=".$row['id']."'>".$row['node']."</a></div>
+				<div class='div-table-col' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['tracked']))."</div>
+				<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>";
 				if ($row['active']==1) {$display_active="Y";} else {$display_active="N";}
-				echo "<div class='div-table-col center' data-column='Active'>".$display_active."</div>";
-			echo "</div>";
+				echo "
+				<div class='div-table-col center' data-column='Active'>".$display_active."</div>
+			</div>";
 		}
-		echo "</div>"; // End table
+		echo "
+		</div>"; // End table
 
 		if ($search==""){$search_page = "";} else {$search_page = "&search=".$search;}
 		if ($trunk==""){$trunk_page = "";} else {$trunk_page = "&trunk=".$trunk;}
 		if ($branch==""){$branch_page = "";} else {$branch_page = "&branch=".$branch;}
 		
-		if ($total_pages == 1){echo "";}
-		else {
-			echo "<span style='font-size:0.8em;'><ul>";
-			if($page <= 1){echo "<li>First </li>";} else {echo "<li><a href=\"?page=1".$search_page.$trunk_page.$branch_page."\">First </a><li>";}
-			if($page <= 1){echo "<li>Prev </li>";} else {echo "<li><a href=\"?page=".($page - 1).$search_page.$trunk_page.$branch_page."\">Prev </a></li>";}
-			if($page >= $total_pages){echo "<li>Next </li>";} else {echo "<li><a href=\"?page=".($page + 1).$search_page.$trunk_page.$branch_page."\">Next </a></li>";}
+		if ($total_pages == 1){
+			echo "";
+		} else {
+			echo "
+		<span class='nav'>
+			<ul>
+				";
+			if($page <= 1){echo "<li>First</li>";} else {echo "<li><a href=\"?page=1".$search_page.$trunk_page.$branch_page."\">First</a><li>";}
+			if($page <= 1){echo "<li>Prev</li>";} else {echo "<li><a href=\"?page=".($page - 1).$search_page.$trunk_page.$branch_page."\">Prev</a></li>";}
+			if($page >= $total_pages){echo "<li>Next</li>";} else {echo "<li><a href=\"?page=".($page + 1).$search_page.$trunk_page.$branch_page."\">Next</a></li>";}
 			if($page >= $total_pages){echo "<li>Last</li>";} else {echo "<li><a href=\"?page=".$total_pages.$search_page.$trunk_page.$branch_page."\">Last</a></li>";}
-			echo "</ul></span>";
+			echo "
+			</ul>
+		</span>";
 		}
 	}
+
 ?>
 
-<br>
-</div> <!-- end of section -->
+	</div> <!-- end of section -->
 
 <?php include("foot.php") ?>

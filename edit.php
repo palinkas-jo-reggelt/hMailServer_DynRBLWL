@@ -6,17 +6,25 @@
 
 	if (isset($_GET['id'])) {$id = $_GET['id'];} else {$id = "";}
 
-	if (isset($_GET['edit'])) {
-		if ((isset($_GET['updatetrunk'])) && (isset($_GET['updatebranch'])) && (isset($_GET['updatenode'])) && (isset($_GET['updateactive']))) {
-			$sql = "UPDATE ".$Database['tablename']." SET trunk='".$_GET['updatetrunk']."', branch='".$_GET['updatebranch']."', node='".preg_replace('/\\\\/','\\\\\\\\',trim($_GET['updatenode']))."', active='".$_GET['updateactive']."'  WHERE id='".$id."';";
+	if (isset($_POST['edit'])) {
+		if ((isset($_POST['updatetrunk'])) && (isset($_POST['updatebranch'])) && (isset($_POST['updatenode'])) && (isset($_POST['updateactive']))) {
+			$sql = "
+				UPDATE ".$Database['tablename']." 
+				SET 
+					trunk='".$_POST['updatetrunk']."', 
+					branch='".$_POST['updatebranch']."', 
+					node='".preg_replace('/\\\\/','\\\\\\\\',trim($_POST['updatenode']))."', 
+					active='".$_POST['updateactive']."'  
+				WHERE id='".$id."';
+			";
 			$pdo->exec($sql);
-			echo "<script>window.close();</script>";
+			header("Location: ".$_POST['referrer']);
 		}
 	}
-	if (isset($_GET['delete'])) {
+	if (isset($_POST['delete'])) {
 		$sql = "DELETE FROM ".$Database['tablename']." WHERE id='".$id."';";
 		$pdo->exec($sql);
-		echo "<script>window.close();</script>";
+		header("Location: ".$_POST['referrer']);
 	}
 
 	echo "<div class='section'>";
@@ -28,8 +36,8 @@
 	$sql->execute();
 	echo "<table class='section'>";
 	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-		echo "<form action='edit.php' method='GET' onsubmit='return confirm(\"Are you sure you want to change the record?\");'>
-				<input type='hidden' name='id' value='".$row['id']."'>";
+		echo "<form action='".$_SERVER['REQUEST_URI']."' method='POST' onsubmit='return confirm(\"Are you sure you want to change the record?\");'>
+				<input type='hidden' name='referrer' value='".$_SERVER['HTTP_REFERER']."'>";
 		echo "<tr>
 				<td>Trunk:</td>
 				<td>
