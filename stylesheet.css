@@ -183,8 +183,15 @@ li {
 	border-top: 1px solid #ccc;
 }
 
+.node {
+	font-weight: normal;
+}
 
 @media only screen and (max-width: 629px) {
+	.node {
+		font-weight: bold;
+	}
+
 	.secleft {
 		float: none;
 		width: 100%;

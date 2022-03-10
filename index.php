@@ -134,7 +134,7 @@
 			<div class='div-table-row'>
 				<div class='div-table-col' data-column='Trunk'>".$row['trunk']."</div>
 				<div class='div-table-col' data-column='Branch'>".$row['branch']."</div>
-				<div class='div-table-col' data-column='Node'><a href='./edit.php?id=".$row['id']."'>".$row['node']."</a></div>
+				<div class='div-table-col node' data-column='Node'><a href='./edit.php?id=".$row['id']."'>".$row['node']."</a></div>
 				<div class='div-table-col' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['tracked']))."</div>
 				<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>";
 				if ($row['active']==1) {$display_active="Y";} else {$display_active="N";}

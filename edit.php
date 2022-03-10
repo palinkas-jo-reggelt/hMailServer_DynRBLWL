@@ -41,13 +41,13 @@
 		echo "<tr>
 				<td>Trunk:</td>
 				<td>
-					<input type='text' size='20' name='updatetrunk' value='".$row['trunk']."'>
+					<input type='text' size='20' id='trunk' name='updatetrunk' value='".$row['trunk']."'>
 				</td>
 			</tr>";
 		echo "<tr>
 				<td>Branch:</td>
 				<td>
-					<input type='text' size='20' name='updatebranch' value='".$row['branch']."'>
+					<input type='text' size='20' id='branch' name='updatebranch' value='".$row['branch']."'>
 				</td>
 			</tr>";
 		echo "<tr>
@@ -88,5 +88,33 @@
 	echo "<br><br>";
 
 	echo "</div>";
+
+	// JS autocomplete trunk
+	echo "
+	<script>
+	$(function() {
+		$('#trunk').autocomplete({
+			source: 'autocomplete-trunk.php',
+			select: function( event, ui ) {
+				event.preventDefault();
+				$('#trunk').val(ui.item.value);
+			}
+		});
+	});
+	</script>";
+
+	// JS autocomplete branch
+	echo "
+	<script>
+	$(function() {
+		$('#branch').autocomplete({
+			source: 'autocomplete-branch.php',
+			select: function( event, ui ) {
+				event.preventDefault();
+				$('#branch').val(ui.item.value);
+			}
+		});
+	});
+	</script>";
 
 ?>
