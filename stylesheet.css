@@ -120,6 +120,7 @@ table.section th, table.section td {
 .footer {
 	width: 100%;
 	text-align: center;
+	font-size: 8pt;
 }
 
 .nav {
